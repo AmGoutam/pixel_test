@@ -4,6 +4,7 @@ import TableHeader from './components/TableHeader'
 import { getAllUserData, updateFilterStateByClear } from './store/slice/UserSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { ClearAllFilters } from './utils/utils'
+import Pagination from './components/Pagination'
 
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
     <>
       <TableHeader ClearAll={ClearAll} cityRef={cityRef} genderRef={genderRef} />
       <TableComponents ClearAll={ClearAll} />
+      <Pagination/>
     </>
   )
 }

@@ -5,6 +5,7 @@ const initialState = {
     filterData: [],
     page: 1,
     limit: 10,
+    numerOfTotalPages: null,
     order: true,
     loading: "idleState",
     totalDataLength: 0,
@@ -15,7 +16,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         showAllUser(state, action) {
-            state.userData = [...state.userData, ...action.payload];
+            state.userData = action.payload;
             state.filterData = state.userData;
         },
         updateFilterState(state, action) {
@@ -29,7 +30,9 @@ const userSlice = createSlice({
             state.filterData = action.payload
         },
         updatePage(state, action) {
+            console.log("action.payload==skip", action.payload)
             state.page = action.payload;
+            console.log("state.page", state.page)
         },
         updateDataLength(state, action) {
             state.totalDataLength = action.payload;
@@ -43,7 +46,7 @@ export const {
     updateLoadingStatus,
     updateFilterStateByClear,
     updatePage,
-    updateDataLength
+    updateDataLength,
 }
     = userSlice.actions;
 
@@ -58,7 +61,6 @@ export function getAllUserData(url) {
         const { page, limit, loading, userData, totalDataLength } = getState().users;
 
 
-
         if (loading === "loading") return; // Stop if already loading or if all data is loaded
         dispatch(updateLoadingStatus("loading"))
 
@@ -69,8 +71,6 @@ export function getAllUserData(url) {
 
             dispatch(showAllUser(results.users))
             dispatch(updateLoadingStatus("success"));
-
-            dispatch(updatePage(page + 1));
             dispatch(updateDataLength(results.total))
 
         } catch (error) {
