@@ -18,27 +18,18 @@ export function sortByName(userdata, ascending) {
     return sortedData.sort((a, b) => b.firstName.localeCompare(a.firstName));
 }
 
-// ************** sorting by Id **************
+// ************** sorting by Id And Age**************
 
 
-export function sortById(userdata, ascending) {
+export function sortByIdAndAge(userdata, ascending, value) {
     const sortedData = [...userdata];
     if (ascending) {
-        return sortedData.sort((a, b) => a.id - b.id);
+        return sortedData.sort((a, b) => a[value] - b[value]);
     }
-    return sortedData.sort((a, b) => b.id - a.id);
+    return sortedData.sort((a, b) => b[value] - a[value]);
 }
 
-// ************** sorting by Age **************
-
-export function sortByAge(userdata, ascending) {
-    const sortedData = [...userdata];
-    if (ascending) {
-        return sortedData.sort((a, b) => a.age - b.age);
-    }
-    return sortedData.sort((a, b) => b.age - a.age);
-}
-// ************** Clear All Filters************** 
+// ************** Clear All Filters **************
 
 export function ClearAllFilters(userdata) {
     return [...userdata];

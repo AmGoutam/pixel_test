@@ -36,9 +36,9 @@ const Pagination = () => {
 
 
     return (
-        <div className='container'>
+        <div className='container my-3'>
             <nav aria-label="Page navigation example">
-                <ul className="pagination">
+                <ul className="pagination flex-wrap gap-2">
                     <li className="page-item"><a className="page-link" href="#" onClick={() => PrevBtn(page)}>Previous</a></li>
                     {
                         myPage.map((ele) => {

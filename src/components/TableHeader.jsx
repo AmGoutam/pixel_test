@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { sortingAll } from "../utils/utils";
-import { updateFilterState } from '../store/slice/UserSlice';
+import { getAllUserData, setData, updateFilterState } from '../store/slice/UserSlice';
 import { CiFilter } from "react-icons/ci";
 
 
 
-const TableHeader = ({ ClearAll, cityRef, genderRef }) => {
+const TableHeader = ({ ClearAll, cityRef, genderRef, dataRef }) => {
 
     const [filter, setFilter] = useState({
         gender: '',
@@ -15,7 +15,7 @@ const TableHeader = ({ ClearAll, cityRef, genderRef }) => {
 
 
     const dispatch = useDispatch()
-    const { userData } = useSelector(state => state.users);
+    const { userData, limit } = useSelector(state => state.users);
 
 
 
@@ -23,7 +23,18 @@ const TableHeader = ({ ClearAll, cityRef, genderRef }) => {
     let gender = [...new Set(userData.map((user) => user.gender))]
     let city = [...new Set(userData.map(user => user.address.city))]
 
+    useEffect(() => {
+        dispatch(getAllUserData('https://dummyjson.com/users'));
+    }, [limit])
 
+
+
+    // Handle Data change
+    const handleData = (e) => {
+        dispatch(setData(e.target.value));
+        cityRef.current.value = "";
+        genderRef.current.value = "";
+    }
 
 
     // Handle Gender change
@@ -59,7 +70,14 @@ const TableHeader = ({ ClearAll, cityRef, genderRef }) => {
                 <div className='me-2'>
                     <CiFilter className='clearBtn' onClick={ClearAll} />
                 </div>
-                <div className='me-2 position-relative'>
+                <div className='me-2'>
+                    <select className="form-select" onChange={e => handleData(e)} ref={dataRef}>
+                        <option value={10}>10</option>
+                        <option value={30}>30</option>
+                        <option value={50}>50</option>
+                    </select>
+                </div>
+                <div className='me-2'>
                     <select className="form-select" onChange={(e) => handleCity(e)} ref={cityRef} defaultValue={""}>
                         <option selected value={""}>City</option>
                         {

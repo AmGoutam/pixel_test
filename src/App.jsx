@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import TableComponents from './components/TableComponents'
 import TableHeader from './components/TableHeader'
-import { getAllUserData, updateFilterStateByClear } from './store/slice/UserSlice'
+import { getAllUserData, setData, updateFilterStateByClear } from './store/slice/UserSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { ClearAllFilters } from './utils/utils'
 import Pagination from './components/Pagination'
@@ -12,6 +12,7 @@ const App = () => {
 
   const cityRef = useRef(null);
   const genderRef = useRef(null);
+  const dataRef = useRef(null);
   const { loading, userData } = useSelector(state => state.users);
 
 
@@ -24,8 +25,10 @@ const App = () => {
   const ClearAll = () => {
     cityRef.current.value = '';
     genderRef.current.value = '';
+    dataRef.current.value = 10;
     const filterItem = ClearAllFilters(userData)
-    dispatch(updateFilterStateByClear(filterItem))
+    dispatch(updateFilterStateByClear(filterItem));
+    dispatch(setData(10))
   }
 
   // If In Api Any Error available then this will show error
@@ -34,9 +37,9 @@ const App = () => {
   // If there is no error then This Components Will be Load
   return (
     <>
-      <TableHeader ClearAll={ClearAll} cityRef={cityRef} genderRef={genderRef} />
+      <TableHeader ClearAll={ClearAll} cityRef={cityRef} genderRef={genderRef} dataRef={dataRef} />
       <TableComponents ClearAll={ClearAll} />
-      <Pagination/>
+      <Pagination />
     </>
   )
 }

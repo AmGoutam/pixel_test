@@ -1,8 +1,8 @@
-import { getAllUserData, updateFilterState, updatePage } from "../store/slice/UserSlice";
+import { updateFilterState } from "../store/slice/UserSlice";
 import UserData from "./UserData";
 import { FaArrowDownLong, FaArrowUp } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { sortByAge, sortById, sortByName } from "../utils/utils";
+import { sortByIdAndAge, sortByName } from "../utils/utils";
 import Loading from "./Loading";
 
 
@@ -11,14 +11,14 @@ const TableComponents = ({ ClearAll }) => {
     const dispatch = useDispatch();
 
     const myOrder = useSelector((state) => state.users.order);
-    const { filterData, totalDataLength, loading } = useSelector(state => state.users);
+    const { filterData, loading } = useSelector(state => state.users);
 
 
 
 
     // handle ID sorting
     const handleId = (e) => {
-        const filterItem = sortById(filterData, myOrder);
+        const filterItem = sortByIdAndAge(filterData, myOrder, "id");
         dispatch(updateFilterState(filterItem))
     }
 
@@ -32,19 +32,16 @@ const TableComponents = ({ ClearAll }) => {
 
     // handle Age sorting
     const handleAge = (e) => {
-        const filterItem = sortByAge(filterData, myOrder);
+        const filterItem = sortByIdAndAge(filterData, myOrder, "age");
         dispatch(updateFilterState(filterItem))
     }
 
 
 
 
-    // if (loading === "loading") {
-    //     return <Loading />
-    // }
     return (
 
-        <div className="container">
+        <div className="container table-responsive">
             <table className="table  table-striped  table-hover table-bordered ">
                 <thead>
                     <tr>

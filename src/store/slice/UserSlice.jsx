@@ -30,12 +30,13 @@ const userSlice = createSlice({
             state.filterData = action.payload
         },
         updatePage(state, action) {
-            console.log("action.payload==skip", action.payload)
             state.page = action.payload;
-            console.log("state.page", state.page)
         },
         updateDataLength(state, action) {
             state.totalDataLength = action.payload;
+        },
+        setData(state, action) {
+            state.limit = action.payload;
         }
     }
 })
@@ -47,6 +48,7 @@ export const {
     updateFilterStateByClear,
     updatePage,
     updateDataLength,
+    setData
 }
     = userSlice.actions;
 
@@ -58,7 +60,7 @@ export const {
 // Middleware funtion here fetch data from api and dispatch action to update state
 export function getAllUserData(url) {
     const fetchAllUserData = async (dispatch, getState) => {
-        const { page, limit, loading, userData, totalDataLength } = getState().users;
+        const { page, limit, loading } = getState().users;
 
 
         if (loading === "loading") return; // Stop if already loading or if all data is loaded
